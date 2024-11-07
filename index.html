@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MY Path for Student</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #goal {
+      padding: 10px;
+      margin-bottom: 10px;
+      width: 300px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      /* 青色 */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+      /* ホバー時の色 */
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 10px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .path-step {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>キャリアパス生成アプリ</h1>
+  <p>目標の職業を入力してください:</p>
+  <input type="text" id="goal" placeholder="例: マイクロソフト本社のエンジニア">
+  <button onclick="generatePath()">パスを生成する</button>
+
+  <h2>最適なキャリアパス</h2>
+  <div id="path"></div>
+
+  <script>
+    // モックデータ: キャリアパスデータベース
+    const careerDatabase = [
+      {
+        goal: "マイクロソフト本社のエンジニア",
+        steps: [
+          {
+            title: "プログラミング基礎を学ぶ",
+            resources: ["Progate", "ドットインストール"]
+          },
+          {
+            title: "長期インターンに参加する",
+            resources: ["A社インターン", "B社インターン", "C社インターン"]
+          },
+          {
+            title: "エンジニアとして就職",
+            resources: ["D社新卒求人", "E社新卒求人", "F社新卒求人"]
+          }
+        ]
+      },
+      {
+        goal: "メガベンチャーのエンジニア",
+        steps: [
+          {
+            title: "データ構造とアルゴリズムを学ぶ",
+            resources: ["LeetCode", "AtCoder"]
+          },
+          {
+            title: "プロジェクトに参加する",
+            resources: ["G社インターン", "H社インターン"]
+          },
+          {
+            title: "エンジニアとして就職",
+            resources: ["I社新卒求人", "J社新卒求人", "K社新卒求人"]
+          }
+        ]
+      }
+    ];
+
+    // キャリアパスを生成する関数
+    function generatePath() {
+      const goal = document.getElementById("goal").value;
+      const result = careerDatabase.find(entry => entry.goal === goal);
+
+      const pathDiv = document.getElementById("path");
+      pathDiv.innerHTML = ""; // 初期化
+
+      if (result) {
+        // キャリアパスの各ステップを表示
+        result.steps.forEach(step => {
+          const stepDiv = document.createElement("div");
+          stepDiv.className = "path-step";
+
+          const titleElement = document.createElement("h3");
+          titleElement.innerText = step.title;
+          stepDiv.appendChild(titleElement);
+
+          const resourcesElement = document.createElement("div");
+          step.resources.forEach(resource => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerText = resource;
+            resourcesElement.appendChild(card);
+          });
+
+          stepDiv.appendChild(resourcesElement);
+          pathDiv.appendChild(stepDiv);
+        });
+      } else {
+        // 見つからない場合のメッセージ
+        pathDiv.innerHTML = "目標に応じたキャリアパスが見つかりませんでした。";
+      }
+    }
+  </script>
+</body>
+
+</html>
